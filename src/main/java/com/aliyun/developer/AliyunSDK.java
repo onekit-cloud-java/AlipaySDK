@@ -2,7 +2,6 @@ package com.aliyun.developer;
 
 import com.alibaba.fastjson.JSONObject;
 
-import com.alipay.developer.AliyunAccount;
 import com.aliyuncs.AliyunAPI;
 import com.aliyuncs.DefaultAcsClient;
 import com.aliyuncs.IAcsClient;

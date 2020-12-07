@@ -1,4 +1,4 @@
-package com.alipay.developer;
+package com.aliyun.developer;
 
 public class AliyunAccount {
     public static String regionId = "cn-shanghai";

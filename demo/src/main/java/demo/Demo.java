@@ -114,5 +114,15 @@ public class Demo {
         body.setTasks(tasks);
         return JSON.object2string(aliyunSDK.ImageSyncScanRequest(body));
     }
+    @RequestMapping("/subscribe")
+    public String subscribe() throws AlipayApiException{
+        alipay_open_app_message_topic_subscribe_body body = new alipay_open_app_message_topic_subscribe_body();
+        body.setAuth_token("authusrB638cc24990f14790be851d840f3e2X90");
+        body.setAuth_type("app_auth");
+        body.setComm_type("HTTP");
+        body.setTopic("alipay.open.auth.appauth.cancelled");
+        body.setTag("BIZ_TAG");
+        return JSON.object2string(alipayToolSDK.alipay_open_app_message_topic_subscribe(body));
+    }
 
 }

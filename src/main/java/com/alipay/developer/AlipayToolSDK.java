@@ -50,4 +50,10 @@ public class AlipayToolSDK extends AlipayToolAPI {
         return alipayClient.execute(request);
 
     }
+
+    public AlipayOpenAppMessageTopicSubscribeResponse alipay_open_app_message_topic_subscribe(alipay_open_app_message_topic_subscribe_body body) throws AlipayApiException {
+        AlipayOpenAppMessageTopicSubscribeRequest request = new AlipayOpenAppMessageTopicSubscribeRequest();
+        request.setBizContent(JSON.object2string(body));
+        return alipayClient.execute(request);
+    }
 }

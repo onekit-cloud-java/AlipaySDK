@@ -43,7 +43,6 @@ public class AlipayMiniSDK extends AlipayMiniAPI {
 
         AlipayOpenMiniContentSyncRequest request = new AlipayOpenMiniContentSyncRequest();
         request.setBizContent(JSON.object2string(body));
-
         return alipayClient.execute(request);
 
     }
