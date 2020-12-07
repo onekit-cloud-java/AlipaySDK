@@ -3,18 +3,15 @@ package demo;
 
 import cn.onekit.thekit.JSON;
 import com.alipay.api.AlipayApiException;
-import com.alipay.developer.AlipayMiniSDK;
-import com.alipay.developer.AlipayPaySDK;
-import com.alipay.developer.AlipaySellSDK;
-import com.alipay.developer.AlipayToolSDK;
-import com.alipay.openapi.entity.alipay_open_app_qrcode_create_body;
-import com.alipay.openapi.entity.alipay_open_mini_content_sync_body;
-import com.alipay.openapi.entity.ant_merchant_expand_shop_query_body;
-import org.springframework.web.bind.annotation.RequestBody;
+import com.alipay.developer.*;
+import com.alipay.openapi.entity.*;
+import com.aliyun.developer.AliyunSDK;
+import com.aliyuncs.entity.ImageSyncScanRequest_body;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -33,6 +30,8 @@ public class Demo {
 
     private AlipayMiniSDK alipayMiniSDK=new AlipayMiniSDK("https://openapi.alipay.com/gateway.do",AlipayAccount.appId,"",AlipayAccount.fromat,AlipayAccount.charset,AlipayAccount.signType,
             "","2014-07-24 03:07:50",AlipayAccount.version,"");
+
+    private AliyunSDK aliyunSDK = new AliyunSDK();
 
     @RequestMapping("/token")
     public String getToken(
@@ -94,6 +93,26 @@ public class Demo {
         body.setShop_id("2018030600077000000047967582");
         return JSON.object2string(alipayPaySDK.ant_merchant_expand_shop_query(body));
 
+    }
+
+    @RequestMapping("/content")
+    public String content() throws AlipayApiException{
+        alipay_security_risk_content_detect_body body = new alipay_security_risk_content_detect_body();
+        body.setContent("hello");
+        return JSON.object2string(alipayMiniSDK.alipay_security_risk_content_detect(body));
+    }
+
+    @RequestMapping("imagecheck")
+    public String imagecheck() {
+        ImageSyncScanRequest_body body = new ImageSyncScanRequest_body();
+        ArrayList<ImageSyncScanRequest_body.scene> scenes = new ArrayList<>();
+        body.setScenes(scenes);
+        HashMap<String, ImageSyncScanRequest_body.tasks> tasks = new HashMap<>();
+        ImageSyncScanRequest_body.tasks task = new ImageSyncScanRequest_body.tasks();
+        task.setUrl("https://gw.alicdn.com/bao/upload/O1CN01Q7VOO01jbH50Niglu_!!6000000004566-0-yinhe.jpg_240x10000Q75.jpg_.webp");
+        tasks.put("url",task);
+        body.setTasks(tasks);
+        return JSON.object2string(aliyunSDK.ImageSyncScanRequest(body));
     }
 
 }

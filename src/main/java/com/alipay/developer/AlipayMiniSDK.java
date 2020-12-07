@@ -8,11 +8,14 @@ import com.alipay.api.FileItem;
 import com.alipay.api.request.AlipayMerchantItemFileUploadRequest;
 import com.alipay.api.request.AlipayOpenAppMiniTemplatemessageSendRequest;
 import com.alipay.api.request.AlipayOpenMiniContentSyncRequest;
+import com.alipay.api.request.AlipaySecurityRiskContentDetectRequest;
 import com.alipay.api.response.AlipayMerchantItemFileUploadResponse;
 import com.alipay.api.response.AlipayOpenAppMiniTemplatemessageSendResponse;
 import com.alipay.api.response.AlipayOpenMiniContentSyncResponse;
+import com.alipay.api.response.AlipaySecurityRiskContentDetectResponse;
 import com.alipay.openapi.AlipayMiniAPI;
 import com.alipay.openapi.entity.alipay_open_mini_content_sync_body;
+import com.alipay.openapi.entity.alipay_security_risk_content_detect_body;
 
 public class AlipayMiniSDK extends AlipayMiniAPI {
 
@@ -43,5 +46,11 @@ public class AlipayMiniSDK extends AlipayMiniAPI {
 
         return alipayClient.execute(request);
 
+    }
+
+    public AlipaySecurityRiskContentDetectResponse alipay_security_risk_content_detect(alipay_security_risk_content_detect_body body) throws AlipayApiException {
+        AlipaySecurityRiskContentDetectRequest request = new AlipaySecurityRiskContentDetectRequest();
+        request.setBizContent(body.getContent());
+        return alipayClient.execute(request);
     }
 }
