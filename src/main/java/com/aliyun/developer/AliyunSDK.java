@@ -1,6 +1,7 @@
 package com.aliyun.developer;
 
-import com.alibaba.fastjson.JSONObject;
+import cn.onekit.thekit.JSON;
+
 
 import com.aliyuncs.AliyunAPI;
 import com.aliyuncs.DefaultAcsClient;
@@ -33,10 +34,8 @@ public class AliyunSDK extends AliyunAPI {
         imageSyncScanRequest.setEncoding("utf-8");
         imageSyncScanRequest.setProtocol(ProtocolType.HTTP);
 
-
-        JSONObject httpBody = new JSONObject();
-        httpBody.put("scenes",body.getScenes());
-        httpBody.put("tasks", body.getTasks());
+        imageSyncScanRequest.setHttpContent(org.apache.commons.codec.binary.StringUtils.getBytesUtf8(JSON.object2string(body)),
+                "UTF-8", FormatType.JSON);
 
         HttpResponse Response =null;
         try {
