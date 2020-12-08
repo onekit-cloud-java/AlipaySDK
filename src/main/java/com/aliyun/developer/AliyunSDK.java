@@ -16,6 +16,7 @@ import com.aliyuncs.profile.DefaultProfile;
 import com.aliyuncs.profile.IClientProfile;
 
 
+
 public class AliyunSDK extends AliyunAPI {
 
     public HttpResponse ImageSyncScanRequest(ImageSyncScanRequest_body body) {
@@ -31,6 +32,7 @@ public class AliyunSDK extends AliyunAPI {
         imageSyncScanRequest.setMethod(MethodType.POST);
         imageSyncScanRequest.setEncoding("utf-8");
         imageSyncScanRequest.setProtocol(ProtocolType.HTTP);
+
 
         JSONObject httpBody = new JSONObject();
         httpBody.put("scenes",body.getScenes());
