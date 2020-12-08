@@ -111,6 +111,7 @@ public class Demo {
     public String imagecheck() {
         ImageSyncScanRequest_body body = new ImageSyncScanRequest_body();
         ArrayList<ImageSyncScanRequest_body.Scene> scenes = new ArrayList<>();
+        scenes.add(ImageSyncScanRequest_body.Scene.porn);
         body.setScenes(scenes);
         ArrayList<ImageSyncScanRequest_body.Task> tasks = new ArrayList<>();
         ImageSyncScanRequest_body.Task task = new ImageSyncScanRequest_body.Task();
