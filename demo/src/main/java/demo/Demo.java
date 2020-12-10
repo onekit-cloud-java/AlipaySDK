@@ -5,7 +5,6 @@ import cn.onekit.thekit.JSON;
 import com.alipay.api.AlipayApiException;
 import com.alipay.developer.*;
 import com.alipay.openapi.entity.*;
-import com.aliyun.developer.AliyunAccount;
 import com.aliyun.developer.AliyunSDK;
 import com.aliyuncs.entity.ImageSyncScanRequest_body;
 import com.aliyuncs.exceptions.ClientException;
@@ -17,8 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+
 
 @RestController
 @RequestMapping("/")
@@ -28,9 +26,6 @@ public class Demo {
             "","2014-07-24 03:07:50",AlipayAccount.version,"");
 
     private AlipaySellSDK alipaySellSDK=new AlipaySellSDK("https://openapi.alipay.com/gateway.do",AlipayAccount.appId,"",AlipayAccount.fromat,AlipayAccount.charset,AlipayAccount.signType,
-            "","2014-07-24 03:07:50",AlipayAccount.version,"");
-
-    private AlipayPaySDK alipayPaySDK=new AlipayPaySDK("https://openapi.alipay.com/gateway.do",AlipayAccount.appId,"",AlipayAccount.fromat,AlipayAccount.charset,AlipayAccount.signType,
             "","2014-07-24 03:07:50",AlipayAccount.version,"");
 
     private AlipayMiniSDK alipayMiniSDK=new AlipayMiniSDK("https://openapi.alipay.com/gateway.do",AlipayAccount.appId,"",AlipayAccount.fromat,AlipayAccount.charset,AlipayAccount.signType,
@@ -47,13 +42,13 @@ public class Demo {
         return JSON.object2string(alipayToolSDK.alipay_system_oauth_token(grant_type, code, refresh_token));
 
     }
-
+/*
     @RequestMapping("/syn")
     public String syn(
             @RequestParam String biz_content
     ) throws AlipayApiException {
         return JSON.object2string(alipayToolSDK.monitor_heartbeat_syn(biz_content));
-    }
+    }*/
 
     @RequestMapping("/qrcode")
     public String qrcode(
@@ -67,7 +62,7 @@ public class Demo {
 
     }
 
-    @RequestMapping("/upload")
+   /* @RequestMapping("/upload")
     public String upload(
             @RequestParam String scene,
             @RequestParam String file_content
@@ -98,7 +93,7 @@ public class Demo {
         body.setShop_id("2018030600077000000047967582");
         return JSON.object2string(alipayPaySDK.ant_merchant_expand_shop_query(body));
 
-    }
+    }*/
 
     @RequestMapping("/content")
     public String content() throws AlipayApiException{
@@ -107,6 +102,7 @@ public class Demo {
         return JSON.object2string(alipayMiniSDK.alipay_security_risk_content_detect(body));
     }
 
+    @SuppressWarnings("DuplicatedCode")
     @RequestMapping("imagecheck")
     public String imagecheck() {
         ImageSyncScanRequest_body body = new ImageSyncScanRequest_body();
@@ -122,10 +118,12 @@ public class Demo {
         return JSON.object2string(aliyunSDK.ImageSyncScanRequest(body));
     }
 
+    @SuppressWarnings("DuplicatedCode")
     @RequestMapping("imagecheck2")
     public String imagecheck2() {
         IClientProfile profile = DefaultProfile.getProfile(AliyunAccount.regionId, AliyunAccount.accessKeyId, AliyunAccount.accessKeySecret);
         try {
+            //noinspection deprecation
             DefaultProfile.addEndpoint("cn-shanghai", "cn-shanghai", "Green", "green.cn-shanghai.aliyuncs.com");
         } catch (ClientException e) {
             e.printStackTrace();

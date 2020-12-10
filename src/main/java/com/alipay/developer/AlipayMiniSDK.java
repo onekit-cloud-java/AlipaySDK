@@ -1,22 +1,15 @@
 package com.alipay.developer;
 
-import cn.onekit.thekit.JSON;
+
 import com.alipay.api.AlipayApiException;
 import com.alipay.api.AlipayClient;
 import com.alipay.api.DefaultAlipayClient;
-import com.alipay.api.FileItem;
-import com.alipay.api.request.AlipayMerchantItemFileUploadRequest;
-import com.alipay.api.request.AlipayOpenAppMiniTemplatemessageSendRequest;
-import com.alipay.api.request.AlipayOpenMiniContentSyncRequest;
 import com.alipay.api.request.AlipaySecurityRiskContentDetectRequest;
-import com.alipay.api.response.AlipayMerchantItemFileUploadResponse;
-import com.alipay.api.response.AlipayOpenAppMiniTemplatemessageSendResponse;
-import com.alipay.api.response.AlipayOpenMiniContentSyncResponse;
 import com.alipay.api.response.AlipaySecurityRiskContentDetectResponse;
 import com.alipay.openapi.AlipayMiniAPI;
-import com.alipay.openapi.entity.alipay_open_mini_content_sync_body;
 import com.alipay.openapi.entity.alipay_security_risk_content_detect_body;
 
+@SuppressWarnings("unused")
 public class AlipayMiniSDK extends AlipayMiniAPI {
 
     private AlipayClient alipayClient = new DefaultAlipayClient(host,AlipayAccount.appId,AlipayAccount.privateKey
@@ -28,7 +21,7 @@ public class AlipayMiniSDK extends AlipayMiniAPI {
     }
 
 
-    public AlipayMerchantItemFileUploadResponse alipay_merchant_item_file_upload(String scene, String file_content) throws AlipayApiException {
+   /* public AlipayMerchantItemFileUploadResponse alipay_merchant_item_file_upload(String scene, String file_content) throws AlipayApiException {
 
         AlipayMerchantItemFileUploadRequest request = new AlipayMerchantItemFileUploadRequest();
         request.setScene(scene);
@@ -37,15 +30,15 @@ public class AlipayMiniSDK extends AlipayMiniAPI {
         return alipayClient.execute(request);
 
 
-    }
+    }*/
 
-    public AlipayOpenMiniContentSyncResponse alipay_open_mini_content_sync(alipay_open_mini_content_sync_body body) throws AlipayApiException {
+  /*  public AlipayOpenMiniContentSyncResponse alipay_open_mini_content_sync(alipay_open_mini_content_sync_body body) throws AlipayApiException {
 
         AlipayOpenMiniContentSyncRequest request = new AlipayOpenMiniContentSyncRequest();
         request.setBizContent(JSON.object2string(body));
         return alipayClient.execute(request);
 
-    }
+    }*/
 
     public AlipaySecurityRiskContentDetectResponse alipay_security_risk_content_detect(alipay_security_risk_content_detect_body body) throws AlipayApiException {
         AlipaySecurityRiskContentDetectRequest request = new AlipaySecurityRiskContentDetectRequest();

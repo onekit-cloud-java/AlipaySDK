@@ -1,4 +1,4 @@
-package com.aliyun.developer;
+package demo;
 
 class AliyunAccount {
      static String regionId = "cn-shanghai";

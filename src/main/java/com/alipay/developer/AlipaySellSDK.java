@@ -9,7 +9,7 @@ import com.alipay.api.response.AlipayOpenAppQrcodeCreateResponse;
 import com.alipay.openapi.AlipaySellAPI;
 import com.alipay.openapi.entity.alipay_open_app_qrcode_create_body;
 
-
+@SuppressWarnings("unused")
 public class AlipaySellSDK extends AlipaySellAPI {
 
     private AlipayClient alipayClient = new DefaultAlipayClient(host,AlipayAccount.appId,AlipayAccount.privateKey

@@ -10,13 +10,14 @@ import java.util.*;
 /**
  * 用于自定义图库上传图片
  */
+@SuppressWarnings("unused")
 public class CustomLibUploader {
 
 
     public String uploadFile(String host, String uploadFolder, String ossAccessKeyId,
                              String policy, String signature,
                              String filepath) throws Exception {
-        LinkedHashMap<String, String> textMap = new LinkedHashMap<String, String>();
+        LinkedHashMap<String, String> textMap = new LinkedHashMap<>();
         // key
         String objectName = uploadFolder + "/imglib_" + UUID.randomUUID().toString() + ".jpg";
         textMap.put("key", objectName);
@@ -29,7 +30,7 @@ public class CustomLibUploader {
         // Signature
         textMap.put("Signature", signature);
 
-        Map<String, String> fileMap = new HashMap<String, String>();
+        Map<String, String> fileMap = new HashMap<>();
         fileMap.put("file", filepath);
 
         String ret = formUpload(host, textMap, fileMap);
@@ -39,7 +40,7 @@ public class CustomLibUploader {
     }
 
     private static String formUpload(String urlStr, Map<String, String> textMap, Map<String, String> fileMap) throws Exception {
-        String res = "";
+        String res;
         HttpURLConnection conn = null;
         String BOUNDARY = "9431149156168";
         try {
@@ -58,7 +59,7 @@ public class CustomLibUploader {
             OutputStream out = new DataOutputStream(conn.getOutputStream());
             // text
             if (textMap != null) {
-                StringBuffer strBuf = new StringBuffer();
+                StringBuilder strBuf = new StringBuilder();
                 Iterator iter = textMap.entrySet().iterator();
                 int i = 0;
                 while (iter.hasNext()) {
@@ -71,14 +72,12 @@ public class CustomLibUploader {
                     if (i == 0) {
                         strBuf.append("--").append(BOUNDARY).append(
                                 "\r\n");
-                        strBuf.append("Content-Disposition: form-data; name=\""
-                                + inputName + "\"\r\n\r\n");
+                        strBuf.append("Content-Disposition: form-data; name=\"").append(inputName).append("\"\r\n\r\n");
                         strBuf.append(inputValue);
                     } else {
                         strBuf.append("\r\n").append("--").append(BOUNDARY).append(
                                 "\r\n");
-                        strBuf.append("Content-Disposition: form-data; name=\""
-                                + inputName + "\"\r\n\r\n");
+                        strBuf.append("Content-Disposition: form-data; name=\"").append(inputName).append("\"\r\n\r\n");
 
                         strBuf.append(inputValue);
                     }
@@ -90,11 +89,9 @@ public class CustomLibUploader {
 
             // file
             if (fileMap != null) {
-                Iterator iter = fileMap.entrySet().iterator();
-                while (iter.hasNext()) {
-                    Map.Entry entry = (Map.Entry) iter.next();
-                    String inputName = (String) entry.getKey();
-                    String inputValue = (String) entry.getValue();
+                for (Map.Entry<String, String> stringStringEntry : fileMap.entrySet()) {
+                    String inputName = (String) ((Map.Entry) stringStringEntry).getKey();
+                    String inputValue = (String) ((Map.Entry) stringStringEntry).getValue();
                     if (inputValue == null) {
                         continue;
                     }
@@ -105,26 +102,23 @@ public class CustomLibUploader {
                         contentType = "application/octet-stream";
                     }
 
-                    StringBuffer strBuf = new StringBuffer();
-                    strBuf.append("\r\n").append("--").append(BOUNDARY).append(
-                            "\r\n");
-                    strBuf.append("Content-Disposition: form-data; name=\""
+                    String strBuf = "\r\n" + "--" + BOUNDARY +
+                            "\r\n" +
+                            "Content-Disposition: form-data; name=\""
                             + inputName + "\"; filename=\"" + filename
-                            + "\"\r\n");
-                    strBuf.append("Content-Type: " + contentType + "\r\n\r\n");
-
-                    out.write(strBuf.toString().getBytes());
+                            + "\"\r\n" +
+                            "Content-Type: " + contentType + "\r\n\r\n";
+                    out.write(strBuf.getBytes());
 
                     DataInputStream in = new DataInputStream(new FileInputStream(file));
-                    int bytes = 0;
+                    int bytes;
                     byte[] bufferOut = new byte[1024];
                     while ((bytes = in.read(bufferOut)) != -1) {
                         out.write(bufferOut, 0, bytes);
                     }
                     in.close();
                 }
-                StringBuffer strBuf = new StringBuffer();
-                out.write(strBuf.toString().getBytes());
+                out.write("".getBytes());
             }
 
             byte[] endData = ("\r\n--" + BOUNDARY + "--\r\n").getBytes();
@@ -133,23 +127,21 @@ public class CustomLibUploader {
             out.close();
 
             // 读取返回数据
-            StringBuffer strBuf = new StringBuffer();
+            StringBuilder strBuf = new StringBuilder();
             BufferedReader reader = new BufferedReader(new InputStreamReader(
                     conn.getInputStream()));
-            String line = null;
+            String line;
             while ((line = reader.readLine()) != null) {
                 strBuf.append(line).append("\n");
             }
             res = strBuf.toString();
             reader.close();
-            reader = null;
         } catch (Exception e) {
             System.err.println("发送POST请求出错: " + urlStr);
             throw e;
         } finally {
             if (conn != null) {
                 conn.disconnect();
-                conn = null;
             }
         }
         return res;

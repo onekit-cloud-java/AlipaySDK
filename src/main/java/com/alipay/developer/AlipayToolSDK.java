@@ -5,15 +5,13 @@ import cn.onekit.thekit.JSON;
 import com.alipay.api.AlipayApiException;
 import com.alipay.api.AlipayClient;
 import com.alipay.api.DefaultAlipayClient;
-import com.alipay.api.FileItem;
 import com.alipay.api.request.*;
 import com.alipay.api.response.*;
-import com.alipay.openapi.AlipayAPI;
 import com.alipay.openapi.AlipayToolAPI;
 import com.alipay.openapi.entity.*;
 
 
-
+@SuppressWarnings("unused")
 public class AlipayToolSDK extends AlipayToolAPI {
 
 
@@ -43,13 +41,13 @@ public class AlipayToolSDK extends AlipayToolAPI {
 
 
 
-    public MonitorHeartbeatSynResponse monitor_heartbeat_syn(String biz_content) throws AlipayApiException{
+   /* public MonitorHeartbeatSynResponse monitor_heartbeat_syn(String biz_content) throws AlipayApiException{
         MonitorHeartbeatSynRequest request = new MonitorHeartbeatSynRequest();
         request.setBizContent(biz_content);
 
         return alipayClient.execute(request);
 
-    }
+    }*/
 
     public AlipayOpenAppMessageTopicSubscribeResponse alipay_open_app_message_topic_subscribe(alipay_open_app_message_topic_subscribe_body body) throws AlipayApiException {
         AlipayOpenAppMessageTopicSubscribeRequest request = new AlipayOpenAppMessageTopicSubscribeRequest();

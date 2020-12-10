@@ -1,14 +1,11 @@
 package com.alipay.developer;
 
-import cn.onekit.thekit.JSON;
-import com.alipay.api.AlipayApiException;
+
 import com.alipay.api.AlipayClient;
 import com.alipay.api.DefaultAlipayClient;
-import com.alipay.api.request.AntMerchantExpandShopQueryRequest;
-import com.alipay.api.response.AntMerchantExpandShopQueryResponse;
 import com.alipay.openapi.AlipayPayAPI;
-import com.alipay.openapi.entity.ant_merchant_expand_shop_query_body;
 
+@SuppressWarnings("unused")
 public class AlipayPaySDK extends AlipayPayAPI {
 
     private AlipayClient alipayClient = new DefaultAlipayClient(host,AlipayAccount.appId,AlipayAccount.privateKey
@@ -20,11 +17,11 @@ public class AlipayPaySDK extends AlipayPayAPI {
     }
 
 
-    public AntMerchantExpandShopQueryResponse ant_merchant_expand_shop_query(ant_merchant_expand_shop_query_body body) throws AlipayApiException {
+   /* public AntMerchantExpandShopQueryResponse ant_merchant_expand_shop_query(ant_merchant_expand_shop_query_body body) throws AlipayApiException {
 
         AntMerchantExpandShopQueryRequest request = new AntMerchantExpandShopQueryRequest();
         request.setBizContent(JSON.object2string(body));
         return alipayClient.execute(request);
 
-    }
+    }*/
 }

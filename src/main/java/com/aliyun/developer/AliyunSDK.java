@@ -17,12 +17,13 @@ import com.aliyuncs.profile.DefaultProfile;
 import com.aliyuncs.profile.IClientProfile;
 
 
-
+@SuppressWarnings("unused")
 public class AliyunSDK extends AliyunAPI {
 
     public HttpResponse ImageSyncScanRequest(ImageSyncScanRequest_body body) {
         IClientProfile profile = DefaultProfile.getProfile(AliyunAccount.regionId, AliyunAccount.accessKeyId, AliyunAccount.accessKeySecret);
         try {
+            //noinspection deprecation
             DefaultProfile.addEndpoint("cn-shanghai", "cn-shanghai", "Green", "green.cn-shanghai.aliyuncs.com");
         } catch (ClientException e) {
             e.printStackTrace();

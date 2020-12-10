@@ -16,6 +16,7 @@ import com.aliyuncs.profile.IClientProfile;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -23,6 +24,7 @@ import java.util.UUID;
 /**
  * 用于本地图片文件检测时，上传本地图片
  */
+@SuppressWarnings("unused")
 public class ClientUploader {
 
     private IClientProfile profile;
@@ -30,14 +32,14 @@ public class ClientUploader {
     private Map<String, String> headers;
     private String prefix;
 
-    private boolean internal = false;
+    private boolean internal;
 
-    private Object lock = new Object();
+    private final Object lock = new Object();
 
     private ClientUploader(IClientProfile profile, String prefix, boolean internal) {
         this.profile = profile;
         this.uploadCredentials = null;
-        this.headers = new HashMap<String, String>();
+        this.headers = new HashMap<>();
         this.prefix = prefix;
         this.internal = internal;
     }
@@ -46,6 +48,7 @@ public class ClientUploader {
     public static ClientUploader getImageClientUploader(IClientProfile profile, boolean internal){
         return  new ClientUploader(profile, "images", internal);
     }
+
 
     public static ClientUploader getVideoClientUploader(IClientProfile profile, boolean internal){
         return  new ClientUploader(profile, "videos", internal);
@@ -59,11 +62,7 @@ public class ClientUploader {
         return  new ClientUploader(profile, "files", internal);
     }
 
-    /**
-     * 上传并获取上传后的图片链接
-     * @param filePath
-     * @return
-     */
+
     public String uploadFile(String filePath){
         FileInputStream inputStream = null;
         OSSClient ossClient = null;
@@ -79,7 +78,7 @@ public class ClientUploader {
 
             ossClient = new OSSClient(getOssEndpoint(uploadCredentials), uploadCredentials.getAccessKeyId(), uploadCredentials.getAccessKeySecret(), uploadCredentials.getSecurityToken());
 
-            String object = uploadCredentials.getUploadFolder() + '/' + this.prefix + '/' + String.valueOf(filePath.hashCode());
+            String object = uploadCredentials.getUploadFolder() + '/' + this.prefix + '/' + filePath.hashCode();
             PutObjectResult ret = ossClient.putObject(uploadCredentials.getUploadBucket(), object, inputStream, meta);
             return "oss://" + uploadCredentials.getUploadBucket() + "/" + object;
         } catch (Exception e) {
@@ -91,7 +90,7 @@ public class ClientUploader {
             if(inputStream != null){
                 try {
                     inputStream.close();
-                }catch (Exception e){
+                }catch (Exception ignored){
 
                 }
             }
@@ -107,11 +106,7 @@ public class ClientUploader {
         }
     }
 
-    /**
-     * 上传并获取上传后的图片链接
-     * @param bytes
-     * @return
-     */
+
     public String uploadBytes(byte[] bytes){
         OSSClient ossClient = null;
         try {
@@ -151,11 +146,6 @@ public class ClientUploader {
         return this.uploadCredentials;
     }
 
-    /**
-     * 从服务器端获取上传凭证
-     * @return
-     * @throws Exception
-     */
     private UploadCredentials getCredentialsFromServer() throws Exception{
         UploadCredentialsRequest uploadCredentialsRequest =  new UploadCredentialsRequest();
         uploadCredentialsRequest.setAcceptFormat(FormatType.JSON); // 指定api返回格式
@@ -166,14 +156,14 @@ public class ClientUploader {
             uploadCredentialsRequest.putHeaderParameter(kv.getKey(), kv.getValue());
         }
 
-        uploadCredentialsRequest.setHttpContent(new JSONObject().toJSONString().getBytes("UTF-8"), "UTF-8", FormatType.JSON);
+        uploadCredentialsRequest.setHttpContent(new JSONObject().toJSONString().getBytes(StandardCharsets.UTF_8), "UTF-8", FormatType.JSON);
 
         IAcsClient client = null;
         try{
             client = new DefaultAcsClient(profile);
             HttpResponse httpResponse =  client.doAction(uploadCredentialsRequest);
             if (httpResponse.isSuccess()) {
-                JSONObject scrResponse = JSON.parseObject(new String(httpResponse.getHttpContent(), "UTF-8"));
+                JSONObject scrResponse = JSON.parseObject(new String(httpResponse.getHttpContent(), StandardCharsets.UTF_8));
                 if (200 == scrResponse.getInteger("code")) {
                     JSONObject data = scrResponse.getJSONObject("data");
                     return new UploadCredentials(data.getString("accessKeyId"), data.getString("accessKeySecret"),
@@ -186,6 +176,7 @@ public class ClientUploader {
             }
             throw new RuntimeException("get upload credential from server fail. http response status:" + httpResponse.getStatus());
         }finally {
+            assert client != null;
             client.shutdown();
         }
     }
