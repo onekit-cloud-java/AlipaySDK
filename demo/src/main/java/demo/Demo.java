@@ -22,7 +22,7 @@ import java.util.ArrayList;
 @RequestMapping("/")
 
 public class Demo {
-    private AlipayToolSDK alipayToolSDK=new AlipayToolSDK("https://openapi.alipay.com/gateway.do",AlipayAccount.appId,"",AlipayAccount.fromat,AlipayAccount.charset,AlipayAccount.signType,
+    private AlipayToolSDK alipayToolSDK=new AlipayToolSDK("https://openapi.alipay.com/gateway.do",AlipayAccount.appId,"alipay.system.oauth.token",AlipayAccount.fromat,AlipayAccount.charset,AlipayAccount.signType,
             "","2014-07-24 03:07:50",AlipayAccount.version,"");
 
     private AlipaySellSDK alipaySellSDK=new AlipaySellSDK("https://openapi.alipay.com/gateway.do",AlipayAccount.appId,"",AlipayAccount.fromat,AlipayAccount.charset,AlipayAccount.signType,
